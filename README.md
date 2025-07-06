@@ -5,19 +5,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>HTML + CSS</title>
+    <title>hyper+connection</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
-  <body>
-    <h1>This is hyperlink connection</h1
-  </body>
-</html>
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Modern Blog with Admin Dashboard</title>
+  <body> 
     <style>
       @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Roboto&display=swap");
       * {
@@ -410,7 +401,7 @@
   </head>
   <body>
     <header>
-      <h1>My Blog</h1>
+      <h1>Hyperlink</h1>
       <button id="toggleAdminBtn" aria-label="Toggle admin login/logout">
         Admin Login
       </button>
@@ -516,7 +507,6 @@
     <script>
       (() => {
         "use strict";
-
         const toggleAdminBtn = document.getElementById("toggleAdminBtn");
         const blogListSection = document.getElementById("blog-list-section");
         const blogList = document.getElementById("blog-list");
@@ -646,7 +636,7 @@
               blogList.appendChild(card);
             });
         }
-
+        
         function openPost(id) {
           const posts = getPosts();
           const post = posts.find((p) => p.id === id);
@@ -942,7 +932,7 @@
             clearPasswordChangeFields();
           }
         });
-
+        
         initAdminPassword();
 
         renderBlogList();
