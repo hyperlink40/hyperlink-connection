@@ -526,31 +526,25 @@
         const postMediaInput = document.getElementById("post-media");
         const mediaPreview = document.getElementById("media-preview");
         const backToHomeBtn = document.getElementById("backToHomeBtn");
-
         const currentPwdInput = document.getElementById("current-password");
         const newPwdInput = document.getElementById("new-password");
         const confirmPwdInput = document.getElementById("confirm-password");
         const changePwdBtn = document.getElementById("change-password-btn");
-
         let isAdmin = false;
         const STORAGE_KEY = "my-blog-posts";
         const ADMIN_PASSWORD_KEY = "my-blog-admin-password";
         let currentMediaArray = [];
-
         function initAdminPassword() {
           if (!localStorage.getItem(ADMIN_PASSWORD_KEY)) {
             localStorage.setItem(ADMIN_PASSWORD_KEY, "admin123");
           }
         }
-
         function getAdminPassword() {
           return localStorage.getItem(ADMIN_PASSWORD_KEY);
         }
-
         function setAdminPassword(newPassword) {
           localStorage.setItem(ADMIN_PASSWORD_KEY, newPassword);
         }
-
         function getPosts() {
           const postsJson = localStorage.getItem(STORAGE_KEY);
           if (!postsJson) return [];
@@ -562,11 +556,9 @@
             return [];
           }
         }
-
         function savePosts(posts) {
           localStorage.setItem(STORAGE_KEY, JSON.stringify(posts));
         }
-
         function formatDate(dateStr) {
           const d = new Date(dateStr);
           return d.toLocaleDateString(undefined, {
@@ -575,13 +567,11 @@
             day: "numeric",
           });
         }
-
         function sanitizeText(text) {
           const div = document.createElement("div");
           div.textContent = text;
           return div.innerHTML;
         }
-
         function getFirstImage(post) {
           if (post.media) {
             for (const m of post.media) {
@@ -590,7 +580,6 @@
           }
           return null;
         }
-
         function renderBlogList() {
           const posts = getPosts();
           blogList.innerHTML = "";
@@ -606,26 +595,22 @@
               card.tabIndex = 0;
               card.setAttribute("role", "button");
               card.setAttribute("aria-pressed", "false");
-
               const firstImageUrl = getFirstImage(post);
               let imgHtml = "";
               if (firstImageUrl) {
                 imgHtml = `<img src="${firstImageUrl}" alt="Post thumbnail" class="post-image" loading="lazy" />`;
               }
-
               let excerptHtml = `<div class="post-excerpt">${sanitizeText(
                 post.content
               ).substring(0, 100)}${
                 post.content.length > 100 ? "..." : ""
               }</div>`;
-
               card.innerHTML = `
             ${imgHtml}
             <h3 class="post-title">${sanitizeText(post.title)}</h3>
             <div class="post-date">${formatDate(post.date)}</div>
             ${excerptHtml}
           `;
-
               card.addEventListener("click", () => openPost(post.id));
               card.addEventListener("keypress", (e) => {
                 if (e.key === "Enter" || e.key === " ") {
@@ -635,8 +620,7 @@
               });
               blogList.appendChild(card);
             });
-        }
-        
+        }   
         function openPost(id) {
           const posts = getPosts();
           const post = posts.find((p) => p.id === id);
@@ -644,7 +628,6 @@
           postViewTitle.textContent = post.title;
           postViewDate.textContent = formatDate(post.date);
           postViewContent.textContent = post.content;
-
           postViewMedia.innerHTML = "";
           if (post.media && post.media.length > 0) {
             post.media.forEach((m) => {
@@ -664,12 +647,10 @@
               }
             });
           }
-
           blogListSection.style.display = "none";
           adminDashboard.style.display = "none";
           postViewSection.style.display = "block";
         }
-
         backToListBtn.addEventListener("click", () => {
           postViewSection.style.display = "none";
           if (isAdmin) {
@@ -678,7 +659,6 @@
             blogListSection.style.display = "block";
           }
         });
-
         backToHomeBtn.addEventListener("click", () => {
           isAdmin = false;
           toggleAdminBtn.textContent = "Admin Login";
@@ -692,7 +672,6 @@
           newPwdInput.value = "";
           confirmPwdInput.value = "";
         });
-
         function renderAdminPostList() {
           const posts = getPosts();
           adminPostList.innerHTML = "";
@@ -731,7 +710,6 @@
               adminPostList.appendChild(adminPostEl);
             });
         }
-
         function fillFormForEdit(post) {
           postIdInput.value = post.id;
           postTitleInput.value = post.title;
@@ -740,7 +718,6 @@
           renderMediaPreview();
           postTitleInput.focus();
         }
-
         function deletePost(id) {
           if (!confirm("Are you sure you want to delete this post?")) return;
           let posts = getPosts();
@@ -753,7 +730,6 @@
           currentMediaArray = [];
           renderMediaPreview();
         }
-
         function renderMediaPreview() {
           mediaPreview.innerHTML = "";
           currentMediaArray.forEach((m, idx) => {
@@ -785,7 +761,6 @@
             mediaPreview.appendChild(wrapper);
           });
         }
-
         function fileToBase64(file) {
           return new Promise((resolve, reject) => {
             const reader = new FileReader();
@@ -799,7 +774,6 @@
             reader.readAsDataURL(file);
           });
         }
-
         postMediaInput.addEventListener("change", async (e) => {
           const files = Array.from(e.target.files);
           if (files.length === 0) return;
@@ -826,7 +800,6 @@
           renderMediaPreview();
           postMediaInput.value = "";
         });
-
         postForm.addEventListener("submit", (e) => {
           e.preventDefault();
           const title = postTitleInput.value.trim();
@@ -835,7 +808,6 @@
             alert("Title and content cannot be empty.");
             return;
           }
-
           const posts = getPosts();
           const existingId = postIdInput.value;
           if (existingId) {
@@ -867,13 +839,11 @@
           renderMediaPreview();
           alert("Post saved successfully!");
         });
-
         function clearPasswordChangeFields() {
           currentPwdInput.value = "";
           newPwdInput.value = "";
           confirmPwdInput.value = "";
         }
-
         changePwdBtn.addEventListener("click", () => {
           const currentPwd = currentPwdInput.value;
           const newPwd = newPwdInput.value;
@@ -900,7 +870,6 @@
           );
           clearPasswordChangeFields();
         });
-
         toggleAdminBtn.addEventListener("click", () => {
           if (!isAdmin) {
             const pwd = prompt("Enter admin password:");
@@ -931,10 +900,8 @@
             renderMediaPreview();
             clearPasswordChangeFields();
           }
-        });
-        
+        });      
         initAdminPassword();
-
         renderBlogList();
       })();
     </script>
